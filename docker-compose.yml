@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: demo_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    image: realtime-server:latest
+    container_name: realtime_server
+    depends_on:
+      - redis
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - REDIS_URL=redis:6379
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    # (Option) mount local static for fast iteration:
+    # volumes:
+    #   - ./wasm-client/static:/app/wwwroot:ro
+
+volumes:
+  redis_data:

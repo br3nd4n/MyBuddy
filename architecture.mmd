@@ -1,0 +1,19 @@
+%%{init: {'securityLevel': 'loose'}}%%
+graph TD
+  Browser[Browser (WASM client)]
+  CDN[CDN (static .wasm + pkg)]
+  Gateway[API Gateway / gRPC-Web]
+  Realtime[Realtime Sync (WebSocket / gRPC)]
+  Backend[Backend Microservices (ASP.NET Core)]
+  Kafka[Kafka / Event Stream]
+  PostGIS[Postgres + PostGIS]
+  ML[ML Inference (ONNX)]
+  Observability[OpenTelemetry / Prometheus / Grafana]
+
+  Browser -->|static .wasm| CDN
+  Browser -->|sync messages| Realtime
+  Realtime --> Backend
+  Backend --> Kafka
+  Backend --> PostGIS
+  Backend --> ML
+  Backend --> Observability
