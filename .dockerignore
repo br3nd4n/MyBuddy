@@ -1,0 +1,10 @@
+# Docker context ignore
+**/target
+**/node_modules
+**/.git
+**/.github
+**/*.log
+**/bin
+**/obj
+**/.vs
+**/*.rs.bk
